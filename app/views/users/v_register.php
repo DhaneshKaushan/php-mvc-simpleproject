@@ -52,5 +52,9 @@
             <input type="submit" value="Register" class="form-btn">
         </form>
     </div>
+
+<!-- javascript for profile image  -->
+<script type="text/JavaScript" src="<?php echo URLROOT ;?>/js/components/imageUpload/imageUpload.js"></script>
+
 <?php require APPROOT.'/views/inc/footer.php';?>       
    
