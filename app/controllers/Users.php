@@ -13,17 +13,27 @@
             
             //input data
             $data = [
+                'profile_image'=>$_FILES['profile_image'],
+                'profile_image_name'=> time().'_'.$_FILES['profile_image']['name'],
                 'name' =>trim($_POST['name']),
                 'email'=>isset($_POST['email']) ? trim($_POST['email']) : '',
                 'password'=>trim($_POST['password']),
                 'confirm_password'=>trim($_POST['confirm_password']),
 
+                'profile_image_err' =>'',
                 'name_err'=>'',
                 'email_err'=>'',
                 'password_err'=>'',
                 'confirm_password_err'=>''
             ];
             //validate all inputs
+            //validate profile image and upload
+            if(uploadImage($data['profile_image']['tmp_name'], $data['profile_image_name'], '/img/profileImgs')){
+                //done
+            }
+            else{
+                $data['profile_image_err'] = 'Profile picture uploading unsuccessful';
+            }
             //validate name
             if(empty($data['name'])){
                 $data['name_err']='Please enter a name';
@@ -52,7 +62,7 @@
             }
 
             //validate is completed and no error then register the user
-            if(empty($data['name_err']) && empty($data['email_err']) && empty($data['password_err']) && empty($data['confirm_password_err'])){
+            if(empty($data['name_err']) && empty($data['email_err']) && empty($data['password_err']) && empty($data['confirm_password_err']) && empty($data['profile_image_err']) ){
                 //Hash Passsword
                 $data['password'] = password_hash($data['password'],PASSWORD_DEFAULT);
 
@@ -74,11 +84,14 @@
         else{
             //initial form
             $data = [
+                'profile_image'=>'',
+                'profile_image_name'=> '',
                 'name' =>'',
                 'email'=>'',
                 'password'=>'',
                 'confirm_password'=>'',
 
+                'profile_image_err' =>'',
                 'name_err'=>'',
                 'email_err'=>'',
                 'password_err'=>'',
@@ -159,6 +172,7 @@
 
     public function createUserSession($user){
         $_SESSION['user_id'] = $user->id;
+        $_SESSION['user_profile_image'] = $user->profile_image;
         $_SESSION['user_email'] = $user->email;
         $_SESSION['user_name'] = $user->name;
         
@@ -167,6 +181,7 @@
 
     public function logout(){
         unset($_SESSION['user_id']);
+        unset($_SESSION['user_profile_image']);
         unset($_SESSION['user_email']);
         unset($_SESSION['user_name']);
         session_destroy();

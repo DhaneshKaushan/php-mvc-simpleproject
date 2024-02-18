@@ -35,6 +35,7 @@ dropArea.addEventListener("drop", (event)=>{
     let list = new DataTransfer();
     list.items.add(file);
     inputPath.files = list.files;
+    
 
     showImage();
     dropArea.classList.remove("active");

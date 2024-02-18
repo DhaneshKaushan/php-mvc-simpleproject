@@ -8,7 +8,7 @@
          <center><h2>User SignUp</h2></center>
          <p><b>Please fill the form to register.</b></p>
         </div>
-        <form action="<?php echo URLROOT?>/Users/register" method="POST">
+        <form action="<?php echo URLROOT?>/Users/register" method="POST" enctype="multipart/form-data">
             <!--prifile image -->
             <div class="form-drag-area">
                 <div class="icon">
@@ -28,6 +28,7 @@
                     Select a Profile picture
                 </div> 
             </div>
+            <span class="form-invalid"><?php echo $data['profile_image_err'];?></span>
             <!-- name -->
             <div class="form-input-title">Name</div>
             <input type="text" name="name" id="name" class="name" value="<?php echo $data['name']?>">
